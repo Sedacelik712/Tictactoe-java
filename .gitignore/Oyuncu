@@ -1,0 +1,274 @@
+
+package ttt;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Random;
+import java.util.Scanner;
+
+
+public class Oyuncu {
+    public int x,y;
+    public String harf;
+    Oyuntahtasi r;
+    public boolean insan;
+    public String st,st2;
+    public char harf2;
+    public int sayan;
+    public String bolum1;
+    public String bolum2;
+    public String[] bolum;
+    Oyuncu(){
+        harf="X";
+        insan=true;
+    }
+    Oyuncu(boolean insanmiKontrolu){
+        insanmiKontrolu=insan;
+        if(insanmiKontrolu==true)
+            harf="X";
+        else
+            harf="O";
+    }
+   public Oyuncu(boolean insanMi, char kr) {
+        insanMi=insan;
+        kr=harf.charAt(1);
+    }
+   Scanner v= new Scanner(System.in);
+    
+    public char karakteriAl(){
+        System.out.println("X/O secin: ");
+        
+        harf=v.nextLine();
+        harf2=harf.charAt(0);
+        return harf2;
+    }
+    boolean oyuncuTurunuAl(){
+        if(insan==true)
+            return true;
+        else
+            return false;
+    }
+    String oyuncununHamlesiniAl(){
+        if(insan==true){
+            System.out.println("Koordinat: ");
+            x=v.nextInt();
+            y=v.nextInt();
+            
+            st=Integer.toString(x);
+            st2=Integer.toString(y);
+            
+            return st+","+st2;
+        }
+        else{
+            Random rastgele= new Random();
+            int rast1,rast2;
+            rast1=rastgele.nextInt(r.n);
+            rast2=rastgele.nextInt(r.n);
+            x=rast1;
+            y=rast2;
+            st=Integer.toString(x);
+            st2=Integer.toString(y);
+            
+            return st+","+st2;
+        }
+    }
+    String insanOyuncuHamlesiniKotrol(){
+        System.out.println("Koordinat: ");
+        x=v.nextInt();
+        y=v.nextInt();
+       
+        st=Integer.toString(x);
+        st2=Integer.toString(y);
+        
+        return st+","+st2;
+    }
+    String bilgisayarHamlesiUret(Oyuntahtasi t){
+        Random rastgele= new Random();
+        int rast1,rast2;
+        rast1=rastgele.nextInt(t.n);
+        rast2=rastgele.nextInt(t.n);
+        x=rast1;
+        y=rast2;
+        st=Integer.toString(x);
+        st2=Integer.toString(y);
+        
+        return st+","+st2;
+    }
+    
+public void OyuncuHamlesi(Oyuntahtasi r) {
+        int i,j;
+        sayan=0;
+        int temp=0;
+        String ad,soyad;
+        System.out.println("adiniz:");
+        ad=v.nextLine();
+        System.out.println("soyad");
+        soyad=v.nextLine();
+        
+        
+        
+        harf2=karakteriAl();
+        String str;
+        System.out.println("------------secimler:---------------");
+        System.out.println("------------------1)devam-----------");
+        System.out.println("------------------2)cikis-------------");
+        int secim;
+        while(sayan<(r.n)*(r.n)){
+            System.out.println(".....");
+            if('x'==(harf2) || 'X'==(harf2)){
+                r.oyuncu='X';
+                str=insanOyuncuHamlesiniKotrol();
+                bolum=str.split(",");
+                bolum1=bolum[0];
+                bolum2=bolum[1];
+                x=Integer.parseInt(bolum1);
+                y=Integer.parseInt(bolum2);
+               
+                r.TahtayiAl(x,y);
+               
+                r.oTahtaYazdir();
+                sayan++;
+                
+                r.kazanma(r.oyuncu);
+                System.out.println();
+                System.out.println();
+                r.oyuncu='O';
+                harf2='O';
+                
+                while(true){
+                    
+                    str= bilgisayarHamlesiUret(r);  
+                    bolum=str.split(",");
+                    bolum1=bolum[0];
+                    bolum2=bolum[1];
+                    x=Integer.parseInt(bolum1);
+                    y=Integer.parseInt(bolum2);
+                        
+                    if((r.board[x][y])=='_'&& r.board[x][y]!='X' && r.board[x][y]!='O'){
+                        r.TahtayiAl(x,y);
+                       
+                        r.oTahtaYazdir();
+                        sayan++;
+                        r.kazanma(r.oyuncu);
+                        break;
+                    }
+                    
+                   
+                }
+                
+                System.out.println("secim");
+                secim=v.nextInt();
+                
+                if(secim==2){
+                    try {
+                         FileWriter fw = new FileWriter("oyun.txt");
+                         PrintWriter pw= new PrintWriter(fw);
+                        pw.println(r.n);
+                        pw.println(sayan);
+                        pw.println("X");
+                        pw.println(ad);
+                        pw.println(soyad);
+                        for(i=0;i<r.n;i++){
+                            pw.print("|");
+                            for(j=0;j<r.n;j++){
+                                
+                                pw.print(r.board[i][j]+"|");
+                            }
+                            pw.println();
+                        }
+                        
+                        
+                        pw.close();
+                    }
+                    catch(IOException e){
+                        System.out.println("hata!!!");
+                    }
+                    break;
+                }
+                
+                System.out.println();
+                System.out.println();
+                r.oyuncu='X';
+                harf2='X';
+                
+                
+                
+            }
+            else if('o'==(harf2) || 'O'==(harf2)){
+                r.oyuncu='X';
+                while(true){
+                   
+                    str= bilgisayarHamlesiUret(r);  
+                    bolum=str.split(",");
+                    bolum1=bolum[0];
+                    bolum2=bolum[1];
+                    x=Integer.parseInt(bolum1);
+                    y=Integer.parseInt(bolum2);
+                    if((r.board[x][y])=='_'&& r.board[x][y]!='O'&&r.board[x][y]!='X'){
+                        r.TahtayiAl(x,y);
+                       
+                        r.oTahtaYazdir();
+                        sayan++;
+                        r.kazanma(r.oyuncu);
+                        break;
+                    }
+                   
+                }
+                r.oyuncu='O';
+               
+                str= insanOyuncuHamlesiniKotrol();
+                bolum=str.split(",");
+                bolum1=bolum[0];
+                bolum2=bolum[1];
+                x=Integer.parseInt(bolum1);
+                y=Integer.parseInt(bolum2);
+                
+                r.TahtayiAl(x,y);
+               
+                r.oTahtaYazdir();
+                sayan++;
+                
+                
+                r.kazanma(r.oyuncu);
+                System.out.println("secim");
+                secim=v.nextInt();
+                
+                if(secim==2){
+                    try {
+                         FileWriter fw = new FileWriter("oyun.txt");
+                         PrintWriter pw= new PrintWriter(fw);
+                        pw.println(r.n);
+                        pw.println(sayan);
+                        pw.println("O");
+                        pw.println(ad);
+                        pw.println(soyad);
+                        for(i=0;i<r.n;i++){
+                            pw.print("|");
+                            for(j=0;j<r.n;j++){
+                                
+                                pw.print(r.board[i][j]+"|");
+                            }
+                            pw.println();
+                        }
+                        
+                        
+                        pw.close();
+                    }
+                    catch(IOException e){
+                        System.out.println("hata!!!");
+                    }
+                    break;
+                }
+                
+                System.out.println();
+                System.out.println();
+                r.oyuncu='X';
+                
+               
+            }
+        }
+    }
+   
+   
+}
