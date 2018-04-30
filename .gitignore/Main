@@ -1,0 +1,98 @@
+
+
+package ttt;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+import java.io.BufferedReader;
+
+
+public class Ttt {
+
+   
+    public static void main(String[] args)throws FileNotFoundException, IOException {
+       Scanner ss= new Scanner(System.in);
+       
+        
+        int secilen;
+        File file=new File("oyun.txt");
+        if(file.length()==0){
+            System.out.println("-----yeni oyun---------");
+            System.out.print("n: ");
+        int boy = ss.nextInt();
+        
+        Oyuntahtasi e=new Oyuntahtasi(boy);
+        
+        
+      
+        e.oTahtaYazdir();
+        Oyuncu q=new Oyuncu();
+        q.OyuncuHamlesi(e);
+        }
+        else{
+            System.out.println("eski oyuna devam etmek ister misiniz?(E:1/H:2)");
+            secilen=ss.nextInt();
+            if(secilen==2){
+                System.out.print("n: ");
+        int boyut = ss.nextInt();
+        
+        
+        Oyuntahtasi e=new Oyuntahtasi(boyut);
+        
+        e.oTahtaYazdir();
+        Oyuncu q=new Oyuncu();
+        q.OyuncuHamlesi(e);
+            }
+          if(secilen==1){
+              BufferedReader okut=null;
+              okut=new BufferedReader(new FileReader("oyun.txt"));
+              Scanner okuma=new Scanner(new File("oyun.txt"));
+              int boyut=okuma.nextInt();
+              System.out.println(boyut);
+              int hamlesay=okuma.nextInt();
+              System.out.println(hamlesay);
+              String h=okuma.nextLine();
+              System.out.println(h);
+              String isim=okuma.nextLine();
+             
+              String soyisim=okuma.nextLine();
+              
+              int i,j,say=0;
+              String matris =okut.readLine();
+              while((okut.readLine())!=null){
+                  
+                  say++;
+                  int test=1;
+                  while(test<(5+boyut)){
+                      if(say==5){
+                       System.out.println(matris);
+                 } 
+                   matris=okut.readLine();
+                   test++;
+                   say=5;
+                  }
+                  
+              }
+                int boy=boyut;
+                int ham=hamlesay;
+                String harff=h;
+                Oyuntahtasi e=new Oyuntahtasi(boy);
+                e.n=boy;
+                
+                
+                Oyuncu q=new Oyuncu();
+                q.sayan=ham;
+                q.harf=harff;
+                q.OyuncuHamlesi(e);
+              okut.close();
+              okuma.close();
+          }      
+        }
+        
+    
+    }
+    
+}
