@@ -1,0 +1,289 @@
+
+package ttt;
+
+
+import java.util.Scanner;
+
+
+public class Oyuntahtasi {
+    public int i=0,j=0,n,x,y;
+    public char oyuncu;
+    public char h;
+    Oyuncu o;
+    public String bolum1;
+    public String bolum2;
+    public String[] bolum;
+    char kazan;
+    public char [][]board;
+    public int sayac=0;
+    Oyuntahtasi(){
+        
+        Scanner dd= new Scanner(System.in);
+        System.out.print("n: ");
+        int boyut = dd.nextInt();
+        for(i=0;i<n;i++){
+            for(j=0;j<n;j++){
+                
+                board[i][j]='_';
+               
+                
+            }
+        }
+        for(i=0;i<n;i++){
+            System.out.print("|");
+            for(j=0;j<n;j++){
+                System.out.print(board[i][j]+" | ");
+                
+            }
+            System.out.println();
+          
+        }
+    }
+    Oyuntahtasi(char [][] oynTahtasi){
+        
+        oynTahtasi=board;
+    }
+
+    public Oyuntahtasi(int n1) {
+        
+        n = n1;
+        board = new char[n1][n1];
+        if(n==3 || n==5 || n==7){
+        for(i=0;i<n;i++){
+            for(j=0;j<n;j++){
+                
+                board[i][j]='_';
+               
+                
+            }
+        }
+        }
+        else{
+            System.out.println("boyut 3-5-7 olabilir");
+            System.exit(1);
+        }
+            
+    }
+    char [][] oyunTahtasiniAl(){
+        board=new char[n][n];
+        return board;
+    }
+    void oyunTahtasiniYazdir(){
+        for(i=0;i<n;i++){
+            System.out.print("|");
+            for(j=0;j<n;j++){
+                System.out.print(board[i][j]+" | ");
+                
+            }
+            System.out.println();
+        
+        }
+    }
+    boolean hamleyiYaz(String koordinat, char oyuncu){
+                
+                bolum=koordinat.split(",");
+                bolum1=bolum[0];
+                bolum2=bolum[1];
+                x=Integer.parseInt(bolum1);
+                y=Integer.parseInt(bolum2);
+                if(board[i][j]=='_'){
+                    board[x][y]=oyuncu;
+                    return true;
+                }
+                
+                    
+                
+    
+                return false;
+    }
+   boolean kazanan(char oyuncu) {
+            int row=0;
+        int col=0;
+        int tdio=0;
+        int dio=0;
+        i=0;
+        j=0;
+       while(i<n){
+      for(j=0;j<n;j++){
+          if(board[i][j]==oyuncu){
+                    row++;
+                if(row==n){
+                    System.out.println(oyuncu+" kazandi");
+                    
+                    System.exit(1);
+                    
+                }
+          }
+                else
+                    break;
+                    
+      
+      }
+      i++;
+      row=0;
+       }
+      i=0;
+      j=0;
+      while(j<n){
+      for(i=0;i<n;i++){
+          if(board[i][j]==oyuncu){
+                    col++;
+                if(col==n){
+                    System.out.println(oyuncu+" kazandi");
+                    
+                    System.exit(1);
+                    
+                }
+          }
+                else
+                    break;
+      
+      }
+          j++;
+          col=0;
+      }
+      for(i=0;i<n;i++){
+          if(board[i][i]==oyuncu)
+              dio++;
+          if(dio==n){
+              System.out.println(oyuncu+" kazandi");
+                    
+                    System.exit(1);
+          }
+              
+      }
+      for(i=0;i<n;i++){
+          if(board[i][n-i-1]==oyuncu)
+              tdio++;
+          if(tdio==n)
+          {
+              System.out.println(oyuncu+" kazandi");
+                    
+                    System.exit(1);
+          }
+      }
+            for(j=0;j<n;j++, i++){
+                if(board[i][j]==oyuncu){
+                   kazan=oyuncu;
+                   return true;
+                }
+                
+            }
+            for(i=0;i<n;i++,j++){
+                if(board[i][j]==oyuncu){
+                    kazan=oyuncu;
+                    return true;
+                }
+            }
+            for(i=0;i<n;i++){
+                if(board[i][i]==oyuncu){
+                    kazan=oyuncu;
+                    return true;
+                }
+            }
+            for(i=0;i<n;i++){
+                if(board[i][n-i-1]==oyuncu){
+                    kazan=oyuncu;
+                    return true;
+                }
+            }
+            return false;
+   }
+   boolean beraberlikKontrol(){
+       if(kazan!=oyuncu)
+           return true;
+       else
+           return false;
+   }
+   
+    
+    public void oTahtaYazdir(){
+        for(i=0;i<n;i++){
+            System.out.print("|");
+            for(j=0;j<n;j++){
+                System.out.print(board[i][j]+" | ");
+                
+            }
+            System.out.println();
+          
+            
+        }
+    }
+    public char TahtayiAl(int i,int j){
+        board[i][j]=oyuncu;
+        return oyuncu;
+    }
+public void kazanma(char oyun){
+        sayac++;
+        int row=0;
+        int col=0;
+        int tdio=0;
+        int dio=0;
+        i=0;
+        j=0;
+       while(i<n){
+      for(j=0;j<n;j++){
+          if(board[i][j]==oyun){
+                    row++;
+                if(row==n){
+                    System.out.println(oyun+" kazandi");
+                    
+                    System.exit(1);
+                    
+                }
+          }
+                else
+                    break;
+                    
+      
+      }
+      i++;
+      row=0;
+       }
+      i=0;
+      j=0;
+      while(j<n){
+      for(i=0;i<n;i++){
+          if(board[i][j]==oyun){
+                    col++;
+                if(col==n){
+                    System.out.println(oyun+" kazandi");
+                    
+                    System.exit(1);
+                    
+                }
+          }
+                else
+                    break;
+      
+      }
+          j++;
+          col=0;
+      }
+      for(i=0;i<n;i++){
+          if(board[i][i]==oyun)
+              dio++;
+          if(dio==n){
+              System.out.println(oyun+" kazandi");
+                    
+                    System.exit(1);
+          }
+              
+      }
+      for(i=0;i<n;i++){
+          if(board[i][n-i-1]==oyun)
+              tdio++;
+          if(tdio==n)
+          {
+              System.out.println(oyun+" kazandi");
+                    
+                    System.exit(1);
+          }
+      }
+      if(sayac==(n*n) &&( dio!=n|| tdio!=n || row!=n ||col!=n )){
+          System.out.println("berabere");
+          System.exit(1);
+      }
+    
+}
+}
